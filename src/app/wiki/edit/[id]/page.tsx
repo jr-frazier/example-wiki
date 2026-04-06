@@ -1,4 +1,6 @@
 import WikiEditor from "@/components/wiki-editor";
+import {authServer} from "@/lib/auth/server";
+import {redirect} from "next/navigation";
 
 interface EditArticlePageProps {
     params: Promise<{
@@ -6,9 +8,12 @@ interface EditArticlePageProps {
     }>;
 }
 
-export default async function EditArticlePage({
-                                                  params,
-                                              }: EditArticlePageProps) {
+export default async function EditArticlePage({params}: EditArticlePageProps) {
+    const {data: session} = await authServer.getSession();
+
+    if (!session?.user) {
+        redirect('/auth/sign-in');
+    }
     const {id} = await params;
 
     // In a real app, you would fetch the article data here
