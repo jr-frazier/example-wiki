@@ -1,4 +1,6 @@
-import WikiArticleViewer from "@/components/wiki-article-viewer";
+import WikiArticleViewer from "@/components/WikiArticleViewer";
+import {authServer} from "@/lib/auth/server";
+
 
 interface ViewArticlePageProps {
     params: Promise<{
@@ -12,7 +14,8 @@ export default async function ViewArticlePage({
     const {id} = await params;
 
     // Mock permission check - in a real app, this would come from auth/user context
-    const canEdit = true; // Set to true for demonstration
+    const {data: session} = await authServer.getSession();
+    const canEdit = !!session?.user
 
     // Mock article data - in a real app, this would be fetched from an API
     const mockArticle = {

@@ -1,6 +1,7 @@
 "use server";
 
 import {redirect} from "next/navigation";
+import {authServer} from "@/lib/auth/server";
 
 export type CreateArticleInput = {
     title: string;
@@ -16,20 +17,22 @@ export type UpdateArticleInput = {
 };
 
 export async function createArticle(data: CreateArticleInput) {
-    // TODO: Replace with actual database call
-    console.log("✨ createArticle called:", data);
+
     return {success: true, message: "Article create logged (stub)"};
 }
 
 export async function updateArticle(id: string, data: UpdateArticleInput) {
-    // TODO: Replace with actual database update
-    console.log("📝 updateArticle called:", {id, ...data});
+    const {data: session} = await authServer.getSession();
+
+    if (!session?.user) {
+        throw new Error("Unauthorized");
+    }
+
     return {success: true, message: `Article ${id} update logged (stub)`};
 }
 
 export async function deleteArticle(id: string) {
     // TODO: Replace with actual database delete
-    console.log("🗑️ deleteArticle called:", id);
     return {success: true, message: `Article ${id} delete logged (stub)`};
 }
 
