@@ -8,6 +8,7 @@ import {Button} from "@/components/ui/button";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Input} from "@/components/ui/input";
 import {Label} from "@/components/ui/label";
+import {updateArticle} from "@/app/actions/articles";
 
 interface WikiEditorProps {
     initialTitle?: string;
@@ -92,8 +93,14 @@ export default function WikiEditor({
             data: formData,
         });
 
+        if (!articleId) {
+            setIsSubmitting(false);
+            alert("Could not determine article ID. Please try again.");
+            return;
+        }
+
         // Simulate API call delay
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await updateArticle(articleId, formData)
 
         setIsSubmitting(false);
 

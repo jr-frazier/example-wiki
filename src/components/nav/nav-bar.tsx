@@ -12,7 +12,7 @@ export function NavBar() {
             className="w-full border-b backdrop-blur  sticky top-0 z-50">
             <div className="container mx-auto flex h-16 items-center justify-between">
                 <Link
-                    href="/public"
+                    href="/"
                     className="font-bold text-xl tracking-tight "
                 >
                     My Wiki
